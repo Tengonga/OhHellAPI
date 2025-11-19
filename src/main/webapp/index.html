@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oh Hell API</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+        h1 { margin-top: 0; }
+        .endpoint {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        a {
+            color: #ffd700;
+            text-decoration: none;
+        }
+        a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🃏 Oh Hell API</h1>
+        <p>API REST para el juego de cartas Oh Hell</p>
+        
+        <h2>Endpoints disponibles:</h2>
+        
+        <div class="endpoint">
+            <strong>GET</strong> <a href="api/hello" target="_blank">/api/hello</a>
+            <p>Endpoint de prueba básico</p>
+        </div>
+        
+        <div class="endpoint">
+            <strong>GET</strong> <a href="api/test-db" target="_blank">/api/test-db</a>
+            <p>Prueba de conexión a base de datos</p>
+        </div>
+        
+        <h2>Estado del servidor:</h2>
+        <p id="status">Verificando...</p>
+    </div>
+    
+    <script>
+        fetch('api/hello')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('status').innerHTML = '✅ Servidor funcionando correctamente';
+            })
+            .catch(error => {
+                document.getElementById('status').innerHTML = '❌ Error conectando con el servidor';
+            });
+    </script>
+</body>
+</html>
