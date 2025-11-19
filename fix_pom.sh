@@ -1,3 +1,15 @@
+#!/bin/bash
+
+cd ~/Programacion/CURSOS/Java/OhHellAPI
+
+echo "🔧 Arreglando pom.xml..."
+
+# Backup del archivo roto
+cp pom.xml pom.xml.broken
+echo "📦 Backup del archivo roto: pom.xml.broken"
+
+# Crear el pom.xml correcto
+cat > pom.xml << 'POMEOF'
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -18,31 +30,35 @@
   </properties>
 
   <dependencies>
-<dependency>
+    <dependency>
       <groupId>jakarta.ws.rs</groupId>
       <artifactId>jakarta.ws.rs-api</artifactId>
       <version>4.0.0</version>
       <scope>provided</scope>
-    </dependency><dependency>
+    </dependency>
+    
+    <dependency>
       <groupId>jakarta.servlet</groupId>
       <artifactId>jakarta.servlet-api</artifactId>
       <version>6.1.0</version>
       <scope>provided</scope>
     </dependency>
-<dependency>
+    
+    <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-api</artifactId>
       <version>${junit.version}</version>
       <scope>test</scope>
     </dependency>
-      <dependency>
-        <groupId>org.junit.jupiter</groupId>
-        <artifactId>junit-jupiter-engine</artifactId>
-        <version>${junit.version}</version>
-        <scope>test</scope>
-      </dependency>
+    
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-engine</artifactId>
+      <version>${junit.version}</version>
+      <scope>test</scope>
+    </dependency>
 
-      <dependency>
+    <dependency>
       <groupId>org.postgresql</groupId>
       <artifactId>postgresql</artifactId>
       <version>42.7.3</version>
@@ -51,10 +67,32 @@
 
   <build>
     <plugins>
-<plugin>
+      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-war-plugin</artifactId>
         <version>3.4.0</version>
-      </plugin>    </plugins>
+      </plugin>
+      
+      <plugin>
+        <groupId>org.apache.tomcat.maven</groupId>
+        <artifactId>tomcat7-maven-plugin</artifactId>
+        <version>2.2</version>
+        <configuration>
+          <path>/api</path>
+          <port>8080</port>
+          <useTestClasspath>false</useTestClasspath>
+        </configuration>
+      </plugin>
+    </plugins>
   </build>
 </project>
+POMEOF
+
+echo "✅ pom.xml corregido exitosamente"
+echo ""
+echo "Ahora puedes ejecutar:"
+echo "  ./mvnw clean compile"
+echo "  ./mvnw tomcat7:run"
+echo ""
+echo "La API estará disponible en:"
+echo "  http://localhost:8080/api/v1/players"
